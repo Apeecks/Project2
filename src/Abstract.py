@@ -12,3 +12,11 @@ class AbstractAPI(ABC):
     @abstractmethod
     def load_vacancies(self, keyword: str) -> Any:
         pass
+
+
+class AbstractUtils(ABC):
+
+    @staticmethod
+    @abstractmethod
+    def json_load_file(info):
+        pass

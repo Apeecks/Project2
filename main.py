@@ -2,14 +2,13 @@ import json
 
 from src.API import API
 from src.work_vacancies import WorkVacancies
+from src.Utils import Utils
 
 head_h = API("https://api.hh.ru/vacancies", "api_head_h", {"text": "", "page": 0, "per_page": 100}, [])
 
 head_h.load_vacancies("Python")
 
-with open("data/test.json", "w", encoding="utf-8") as f:
-    json.dump(head_h.result, f, indent=4, ensure_ascii=False)
-
+Utils.json_load_file(head_h.result)
 
 def get_date(data: str) -> str:
     """Изменение формата даты"""
