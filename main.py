@@ -1,46 +1,25 @@
-import json
-
-from src.API import API
-from src.work_vacancies import WorkVacancies
+from src.auxiliary_func import add_obj_work_vacancies, api_name
 from src.Utils import Utils
+from src.work_vacancies import WorkVacancies
 
-head_h = API("https://api.hh.ru/vacancies", "api_head_h", {"text": "", "page": 0, "per_page": 100}, [])
+# Класс API + auxiliary_func. Формирование запроса по сервису, кол-ом вакансий и слову
+hh = api_name("hh.ru", 20)
+hh_sort = hh.load_data_vacancies("Python", "data/test.json")
 
-head_h.load_vacancies("Python")
+# Создаем объекты класса WorkVacancies
+add_obj_work_vacancies(hh_sort)
 
-Utils.json_load_file(head_h.result)
+# Class WorkVacancies. Работа с вакансиями
+for x in WorkVacancies.salary_range(100000):
+    print(x)
+print("\n")
+for x in WorkVacancies.experience_not():
+    print(x)
+print("\n")
+for x in WorkVacancies.city_sort("Москва"):
+    print(x)
+print("\n")
+for x in WorkVacancies.list_vacancies:
+    print(x)
 
-def get_date(data: str) -> str:
-    """Изменение формата даты"""
-    if data == "":
-        raise ValueError("Неверный формат")
-    elif data[4] != "-":
-        raise ValueError("Неверный формат")
-    elif data[7] != "-":
-        raise ValueError("Неверный формат")
-
-    data_t = [data[8:10], data[5:7], data[0:4]]
-
-    return ".".join(data_t)
-
-
-number_vac = 0
-for x in head_h.result:
-    name = x["name"]
-    salary = x["salary"]
-    city = x["area"]["name"]
-    published_at = get_date(x["published_at"])
-    experience = x["experience"]["name"]
-    alternate_url = x["alternate_url"]
-    number_vac += 1
-    vacancies = WorkVacancies(name, salary, city, published_at, experience, alternate_url)
-    if type(vacancies.salary) is str:
-        continue
-    elif vacancies.experience != "Нет опыта":
-        continue
-    else:
-        print(WorkVacancies.all_obj[WorkVacancies.id])
-        print(repr(WorkVacancies.all_obj[WorkVacancies.id]))
-print(f"{number_vac}\n\n\n")
-
-print(WorkVacancies.all_obj[18] > WorkVacancies.all_obj[39])
+Utils.json_remove("data/vacancies.json")
