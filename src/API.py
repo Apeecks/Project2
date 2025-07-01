@@ -37,7 +37,7 @@ class API(AbstractAPI):
         else:
             return f"Ошибка. Status_code: {result_json.status_code}"
 
-    def load_data_vacancies(self, keyword: str, filename: str) -> Any:
+    def load_data_vacancies(self, keyword: str, filename: str = "data/vacancies.json") -> Any:
         """
         Получение вакансий hh.ru
         """
