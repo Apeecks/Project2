@@ -17,7 +17,7 @@ def test_add_obj(capsys: Any, add_obj_test: Any) -> Any:
     )
 
 
-@patch("src.API.API._API__connect_api")
+@patch("src.API.API._connect_api")
 @patch("builtins.input")
 def test_user_interaction(mock_input: Any, mock_connect_api: Any, capsys: Any) -> Any:
     mock_input.side_effect = ["test", "список", "hh.ru", "3", "test", "y", "50", "Москва"]
@@ -63,12 +63,13 @@ def test_user_interaction(mock_input: Any, mock_connect_api: Any, capsys: Any) -
 
     # Utils.json_dump создается в test_user_interaction
 
-    result = Utils.json_load("data/test.json")
+    utils_filename = Utils("data/test.json")
+    result = utils_filename.json_load()
     print(result)
     c = capsys.readouterr()
     assert c.out == f"{add_vacancies_sort_file_json(mock_connect_api.return_value, 'data/test.json')}\n"
 
-    result = Utils.json_remove("data/test.json")
+    result = utils_filename.json_remove()
     print(result)
     c = capsys.readouterr()
     assert c.out == "None\n"
