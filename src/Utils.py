@@ -12,13 +12,17 @@ class Utils(AbstractUtils):
         """
         Сохранение вакансий в json файл, без дубликата
         """
-        list_json_file = Utils.json_load(filename)
+        if filename == "data/vacancies.json":
+            list_json_file = Utils.json_load(filename)
 
-        new_sort_list = [x for x in info if x not in list_json_file]
+            new_sort_list = [x for x in info if x not in list_json_file]
+
+            with open(filename, "w", encoding="utf-8") as f:
+                list_json_file.extend(new_sort_list)
+                json.dump(list_json_file, f, indent=4, ensure_ascii=False)
 
         with open(filename, "w", encoding="utf-8") as f:
-            list_json_file.extend(new_sort_list)
-            json.dump(list_json_file, f, indent=4, ensure_ascii=False)
+            json.dump(info, f, indent=4, ensure_ascii=False)
 
     @staticmethod
     def json_load(filename: str) -> Any:

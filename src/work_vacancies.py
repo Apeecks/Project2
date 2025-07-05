@@ -19,8 +19,8 @@ class WorkVacancies:
         self.experience = experience
         self.alternate_url = alternate_url
 
-        self.__data_validation()
-        WorkVacancies.list_vacancies.append(self)
+        if self.__data_validation() is not False:
+            WorkVacancies.list_vacancies.append(self)
 
     def __str__(self) -> str:
         return f"{self.name}, {self.city}, {self.experience}, {self.salary}"
@@ -46,7 +46,11 @@ class WorkVacancies:
         """
         Проверка данных
         """
-        pass
+        if type(self.salary) is dict:
+            if self.salary["from"] is None:
+                return False
+            if self.salary["to"] is None:
+                return False
 
     @staticmethod
     def salary_range(min_salary: int) -> list:
