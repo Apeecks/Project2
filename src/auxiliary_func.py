@@ -51,7 +51,8 @@ def add_vacancies_sort_file_json(list_dict_vacancies: list, filename: str) -> li
                 "alternate_url": x["alternate_url"],
             }
             list_dict_sort.append(dict_vacancies)
-    Utils.json_dump(list_dict_sort, filename)
+    utils_filename = Utils(filename)
+    utils_filename.json_dump(list_dict_sort)
     return list_dict_sort
 
 
