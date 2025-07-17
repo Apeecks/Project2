@@ -24,7 +24,7 @@ class API(AbstractAPI):
         self.__params = params
         self.result = result
 
-    def __connect_api(self) -> Any:
+    def _connect_api(self) -> Any:
         """
         Подключение к api
         """
@@ -43,7 +43,7 @@ class API(AbstractAPI):
         """
         logger.info("Вакансии загружаются")
         self.params["text"] = keyword
-        result_json = self.__connect_api()
+        result_json = self._connect_api()
         while self.params.get("page") != 1:
             logger.info(f"Загружается страница: {self.params['page'] + 1}")
             if type(result_json) is str:

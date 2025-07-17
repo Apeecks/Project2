@@ -13,6 +13,10 @@ class AbstractAPI(ABC):
         self.params = params
 
     @abstractmethod
+    def _connect_api(self) -> Any:
+        pass
+
+    @abstractmethod
     def load_data_vacancies(self, keyword: str, filename: str) -> Any:
         """
         Метод получения данных Api
@@ -25,25 +29,22 @@ class AbstractUtils(ABC):
     Абстрактный класс для работы с файлами
     """
 
-    @staticmethod
     @abstractmethod
-    def json_dump(info: list, filename: str) -> Any:
+    def json_dump(self, info: list) -> Any:
         """
         Загрузка данных в json файл
         """
         pass
 
-    @staticmethod
     @abstractmethod
-    def json_load(filename: str) -> Any:
+    def json_load(self) -> Any:
         """
         Загрузка данных из json файла
         """
         pass
 
-    @staticmethod
     @abstractmethod
-    def json_remove(filename: str) -> Any:
+    def json_remove(self) -> Any:
         """
         Удаление данных из файла
         """

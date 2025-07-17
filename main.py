@@ -22,7 +22,8 @@ print("\n")
 for x in WorkVacancies.list_vacancies:
     print(x)
 
-Utils.json_remove("data/vacancies.json")
+utils_filename = Utils("data/vacancies.json")
+utils_filename.json_remove()
 
 # Функция взаимодействия с пользователем
 print("\n\n\n")

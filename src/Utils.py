@@ -7,36 +7,35 @@ from src.Abstract import AbstractUtils
 
 class Utils(AbstractUtils):
 
-    @staticmethod
-    def json_dump(info: list, filename: str) -> Any:
+    def __init__(self, filename: str = "filename.txt"):
+        self.__filename = filename
+
+    def json_dump(self, info: list) -> Any:
         """
         Сохранение вакансий в json файл, без дубликата
         """
-        if filename == "data/vacancies.json":
-            list_json_file = Utils.json_load(filename)
+        try:
+            existing_data = self.json_load()
+        except FileNotFoundError:
+            existing_data = []
 
-            new_sort_list = [x for x in info if x not in list_json_file]
+        new_data = [item for item in info if item not in existing_data]
+        existing_data.extend(new_data)
 
-            with open(filename, "w", encoding="utf-8") as f:
-                list_json_file.extend(new_sort_list)
-                json.dump(list_json_file, f, indent=4, ensure_ascii=False)
+        with open(self.__filename, "w", encoding="utf-8") as f:
+            json.dump(existing_data, f, indent=4, ensure_ascii=False)
 
-        with open(filename, "w", encoding="utf-8") as f:
-            json.dump(info, f, indent=4, ensure_ascii=False)
-
-    @staticmethod
-    def json_load(filename: str) -> Any:
+    def json_load(self) -> Any:
         """
         Возвращает данные из файла
         """
         try:
-            with open(filename, encoding="utf-8") as f:
+            with open(self.__filename, encoding="utf-8") as f:
                 result = json.load(f)
                 return result
         except JSONDecodeError:
             return []
 
-    @staticmethod
-    def json_remove(filename: str) -> Any:
-        with open(filename, "w"):
+    def json_remove(self) -> Any:
+        with open(self.__filename, "w"):
             pass
